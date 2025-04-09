@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "73435180499",
+    "project_id": "bryanfarrel",
+    "storage_bucket": "bryanfarrel.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:73435180499:android:a3f4eed96fff8db4b61326",
+        "android_client_info": {
+          "package_name": "com.example.bryanfarrel_apps"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdS_FTl_RiqyFem1Xol5UytA7nyA5pVfo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
