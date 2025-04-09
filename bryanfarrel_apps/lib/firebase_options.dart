@@ -83,4 +83,5 @@ class DefaultFirebaseOptions {
     authDomain: 'bryanfarrel.firebaseapp.com',
     storageBucket: 'bryanfarrel.firebasestorage.app',
   );
+
 }
