@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bryanfarrel_apps/screens/add_post_screen.dart';
 import 'package:bryanfarrel_apps/screens/sign_in_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -120,7 +121,11 @@ class HomeScreen extends StatelessWidget {
             );
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => AddPostScreen()),
+          );
+        },
         child: const Icon(Icons.add),
       ),
     );
