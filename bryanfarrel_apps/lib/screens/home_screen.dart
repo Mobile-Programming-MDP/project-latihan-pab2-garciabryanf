@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bryanfarrel_apps/screens/add_post_screen.dart';
+import 'package:bryanfarrel_apps/screens/detail_screen.dart';
 import 'package:bryanfarrel_apps/screens/sign_in_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,7 +19,7 @@ class HomeScreen extends StatelessWidget {
     } else if (diff.inMinutes < 60) {
       return '${diff.inMinutes} mins ago';
     } else if (diff.inHours < 24) {
-      return '${diff.inMinutes} hrs ago';
+      return '${diff.inHours} hrs ago';
     } else {
       return DateFormat('dd/MM/yyyy').format(dateTime);
     }
@@ -34,38 +35,61 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text("Home"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           IconButton(
-              onPressed: () {
-                signOut(context);
-              },
-              icon: const Icon(Icons.logout))
+            onPressed: () {
+              signOut(context);
+            },
+            icon: const Icon(Icons.logout),
+          )
         ],
       ),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection("posts")
-              .orderBy('createAt', descending: true)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData)
-              return const Center(child: CircularProgressIndicator());
+        stream: FirebaseFirestore.instance
+            .collection("posts")
+            .orderBy('createdAt', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return const Center(child: CircularProgressIndicator());
 
-            final posts = snapshot.data!.docs;
-            return ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                final data = posts[index].data();
-                final imageBase64 = data['image'];
-                final description = data['description'];
-                final createAtStr = data['createAt'];
-                final fullName = data['finalName'] ?? 'Anonim';
+          final posts = snapshot.data!.docs;
 
-                //parse ke DateTime
-                final createAt = DateTime.parse(createAtStr);
-                return Card(
+          //Script lengkap bagian ListView.builder
+          //https://pastebin.com/kSXM5mTX
+          return ListView.builder(
+            itemCount: posts.length,
+            itemBuilder: (context, index) {
+              final data = posts[index].data();
+              final imageBase64 = data['image'];
+              final description = data['description'];
+              final createdAtStr = data['createdAt'];
+              final fullName = data['fullName'] ?? 'Anonim';
+
+              //parse ke DateTime
+              final createdAt = DateTime.parse(createdAtStr);
+              String heroTag =
+                  'fasum-image-${createdAt.millisecondsSinceEpoch}';
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailScreen(
+                          imageBase64: imageBase64,
+                          description: description,
+                          createdAt: createdAt,
+                          fullName: fullName,
+                          latitude: 0.0,
+                          longitude: 0.0,
+                          category: "Jalan Rusak",
+                          heroTag: heroTag),
+                    ),
+                  );
+                },
+                child: Card(
                   margin: const EdgeInsets.all(10),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -92,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  formatTime(createAt),
+                                  formatTime(createdAt),
                                   style: const TextStyle(
                                       fontSize: 12, color: Colors.grey),
                                 ),
@@ -103,7 +127,7 @@ class HomeScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 6),
                               ],
                             ),
                             const SizedBox(height: 6),
@@ -116,10 +140,12 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                );
-              },
-            );
-          }),
+                ),
+              );
+            },
+          );
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(
