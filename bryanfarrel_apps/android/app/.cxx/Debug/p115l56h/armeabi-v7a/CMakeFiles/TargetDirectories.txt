@@ -1,0 +1,2 @@
+C:/IF41 Bryan/project-latihan-pab2-garciabryanf/bryanfarrel_apps/android/app/.cxx/Debug/p115l56h/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/IF41 Bryan/project-latihan-pab2-garciabryanf/bryanfarrel_apps/android/app/.cxx/Debug/p115l56h/armeabi-v7a/CMakeFiles/rebuild_cache.dir
