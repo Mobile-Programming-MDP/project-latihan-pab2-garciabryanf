@@ -1,18 +1,20 @@
+import 'package:bryanfarrel_apps/screens/splash_screen.dart';
 import 'package:bryanfarrel_apps/screens/home_screen.dart';
 import 'package:bryanfarrel_apps/screens/sign_in_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+
 void main() async {
   // Ensure Flutter's binding is initialized
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Firebase before running the app
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   // Run your app after Firebase has been initialized
   runApp(const MyApp());
 }
@@ -28,15 +30,14 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return const HomeScreen();
-            } else {
-              return const SignInScreen();
-            }
-          }),
+      home: SplashScreen(),
+      // home: StreamBuilder(stream: FirebaseAuth.instance.authStateChanges(), builder: (context, snapshot){
+      //   if(snapshot.hasData){
+      //     return const HomeScreen();
+      //   } else {
+      //     return const SignInScreen();
+      //   }
+      // }),
     );
   }
 }
